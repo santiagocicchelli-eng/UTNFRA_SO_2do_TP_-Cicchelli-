@@ -1,57 +1,6 @@
 #!/bin/bash
 #Creacion de particiones
 
-cicchelli@parcial:~$ sudo fdisk -l
-[sudo] password for cicchelli:
-Disk /dev/loop0: 91.68 MiB, 96129024 bytes, 187752 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/loop1: 63.78 MiB, 66879488 bytes, 130624 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/loop2: 49.26 MiB, 51654656 bytes, 100888 sectors
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/sdb: 10 MiB, 10485760 bytes, 20480 sectors
-Disk model: HARDDISK
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/sda: 40 GiB, 42949672960 bytes, 83886080 sectors
-Disk model: HARDDISK
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disklabel type: dos
-Disk identifier: 0xb2a6d529
-
-Device     Boot Start      End  Sectors Size Id Type
-/dev/sda1  *     2048 83886046 83883999  40G 83 Linux
-
-
-Disk /dev/sdc: 2 GiB, 2147483648 bytes, 4194304 sectors
-Disk model: HARDDISK
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-
-
-Disk /dev/sdd: 1 GiB, 1073741824 bytes, 2097152 sectors
-Disk model: HARDDISK
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
 cicchelli@parcial:~$ sudo fdisk /dev/sdc
 
 Welcome to fdisk (util-linux 2.37.2).
