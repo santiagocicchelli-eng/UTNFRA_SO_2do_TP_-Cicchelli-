@@ -1,42 +1,6 @@
 #!/bin/bash
 #Creacion de particiones
-Santiago@DESKTOP-H8JVUJJ MINGW64 ~/Documents/UTN-FRA_SO_Vagrant/VagrantFiles/parcial (master)
-$ vagrant ssh
-Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-179-generic x86_64)
 
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/pro
-
- System information as of Tue Jun 23 03:02:03 UTC 2026
-
-  System load:             0.1
-  Usage of /:              6.6% of 38.70GB
-  Memory usage:            18%
-  Swap usage:              0%
-  Processes:               105
-  Users logged in:         0
-  IPv4 address for enp0s3: 10.0.2.15
-  IPv6 address for enp0s3: fd17:625c:f037:2:dc:5fff:fe02:c88d
-
-
-Expanded Security Maintenance for Applications is not enabled.
-
-44 updates can be applied immediately.
-36 of these updates are standard security updates.
-To see these additional updates run: apt list --upgradable
-
-2 additional security updates can be applied with ESM Apps.
-Learn more about enabling ESM Apps service at https://ubuntu.com/esm
-
-New release '24.04.4 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
-
-
-Last login: Tue Jun 23 02:04:36 2026 from 10.0.2.2
-vagrant@parcial:~$ su cicchelli
-Password:
-cicchelli@parcial:/home/vagrant$ cd
 cicchelli@parcial:~$ sudo fdisk -l
 [sudo] password for cicchelli:
 Disk /dev/loop0: 91.68 MiB, 96129024 bytes, 187752 sectors
@@ -419,4 +383,111 @@ Writing inode tables: done
 Creating journal (1024 blocks): done
 Writing superblocks and filesystem accounting information: done
 
-	
+cicchelli@parcial:~$ sudo mkfs.ext4 /dev/mapper/vg_datos-lv_workareas
+mke2fs 1.46.5 (30-Dec-2021)
+Creating filesystem with 393216 4k blocks and 98304 inodes
+Filesystem UUID: 8ed7b913-8247-49c4-a21c-207dd7782a30
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+cicchelli@parcial:~$ sudo mkfs.ext4 /dev/mapper/vg_datos-lv_swap
+mke2fs 1.46.5 (30-Dec-2021)
+Creating filesystem with 131072 4k blocks and 32768 inodes
+Filesystem UUID: 5f5e923d-68fd-44d4-aa0b-5deebafef816
+Superblock backups stored on blocks:
+        32768, 98304
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+cicchelli@parcial:~$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       229Mi       282Mi       1.0Mi       1.4Gi       1.5Gi
+Swap:             0B          0B          0B
+cicchelli@parcial:~$ sudo mkswap /dev/mapper/vg_datos-lv_swap
+mkswap: /dev/mapper/vg_datos-lv_swap: warning: wiping old ext4 signature.
+Setting up swapspace version 1, size = 512 MiB (536866816 bytes)
+no label, UUID=76e2b76d-af92-4543-b233-ce25edaffa5f
+cicchelli@parcial:/var/lib$ sudo mount /dev/mapper/vg_datos-lv_docker /var/lib/docker/
+cicchelli@parcial:/var/lib$ df -h
+Filesystem                      Size  Used Avail Use% Mounted on
+tmpfs                           197M  1.1M  196M   1% /run
+/dev/sda1                        39G  2.6G   37G   7% /
+tmpfs                           982M     0  982M   0% /dev/shm
+tmpfs                           5.0M     0  5.0M   0% /run/lock
+tmpfs                           197M  4.0K  197M   1% /run/user/1000
+/dev/mapper/vg_datos-lv_docker  3.5M   24K  3.0M   1% /var/lib/docker
+cicchelli@parcial:/var/lib$ lsblk -f
+NAME                      FSTYPE      FSVER            LABEL           UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+loop0                     squashfs    4.0                                                                           0   100% /snap/lxd/38800
+loop1                     squashfs    4.0                                                                           0   100% /snap/core20/2866
+loop2                     squashfs    4.0                                                                           0   100% /snap/snapd/26865
+sda
+└─sda1                    ext4        1.0              cloudimg-rootfs e57cb73c-ac10-4b9b-b4ec-c506d8c896ca     36.1G     7% /
+sdb                       iso9660     Joliet Extension cidata          2026-05-15-11-13-05-00
+sdc
+├─sdc1                    LVM2_member LVM2 001                         gVELnt-xX6T-myhy-hNs0-3O3L-9Z0Q-U5Quwh
+├─sdc2                    LVM2_member LVM2 001                         99M84v-fXOt-bVkW-1jTp-oRkW-Tehn-h1PceK
+│ └─vg_datos-lv_workareas ext4        1.0                              8ed7b913-8247-49c4-a21c-207dd7782a30
+└─sdc3                    LVM2_member LVM2 001                         2DTaMi-Wv9L-tyEZ-vFcZ-eRGX-x9LW-jrYj14
+sdd                       LVM2_member LVM2 001                         pHTiCM-ylOW-DAgE-eIX3-rqlJ-Yqsc-CwnWd1
+├─vg_datos-lv_docker      ext4        1.0                              806a7b68-da0e-4689-8517-5b7588dc25c3      2.9M     1% /var/lib/docker
+├─vg_datos-lv_workareas   ext4        1.0                              8ed7b913-8247-49c4-a21c-207dd7782a30
+└─vg_datos-lv_swap        swap        1                                76e2b76d-af92-4543-b233-ce25edaffa5f
+cicchelli@parcial:/var/lib$ cd /
+cicchelli@parcial:/$ ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var
+cicchelli@parcial:/$ sudo mkdir work
+cicchelli@parcial:/$ ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var  work
+cicchelli@parcial:/$ sudo mount /dev/mapper/vg_datos-lv_workareas work/
+cicchelli@parcial:/$ df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              197M  1.1M  196M   1% /run
+/dev/sda1                           39G  2.6G   37G   7% /
+tmpfs                              982M     0  982M   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+tmpfs                              197M  4.0K  197M   1% /run/user/1000
+/dev/mapper/vg_datos-lv_docker     3.5M   24K  3.0M   1% /var/lib/docker
+/dev/mapper/vg_datos-lv_workareas  1.5G   24K  1.4G   1% /work
+cicchelli@parcial:/$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       225Mi       284Mi       1.0Mi       1.4Gi       1.5Gi
+Swap:             0B          0B          0B
+cicchelli@parcial:/$ sudo swapon /dev/mapper/vg_datos-lv_swap
+cicchelli@parcial:/$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       225Mi       284Mi       1.0Mi       1.4Gi       1.5Gi
+Swap:          511Mi          0B       511Mi
+cicchelli@parcial:/$ sudo systemctl restart docker
+cicchelli@parcial:/$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2026-06-23 04:34:20 UTC; 16s ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 11041 (dockerd)
+      Tasks: 8
+     Memory: 25.1M
+        CPU: 751ms
+     CGroup: /system.slice/docker.service
+             └─11041 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.194034582Z" level=info msg="Restoring containers: start."
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.218567888Z" level=info msg="Deleting nftables IPv4 rules" error="running nft: >
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.242140003Z" level=info msg="Deleting nftables IPv6 rules" error="running nft: >
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.864425344Z" level=info msg="Loading containers: done."
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.873544906Z" level=info msg="Docker daemon" commit=70eaf5e containerd-snapshott>
+Jun 23 04:34:19 parcial dockerd[11041]: time="2026-06-23T04:34:19.873732666Z" level=info msg="Initializing buildkit"
+Jun 23 04:34:20 parcial dockerd[11041]: time="2026-06-23T04:34:20.097486472Z" level=info msg="Completed buildkit initialization"
+Jun 23 04:34:20 parcial dockerd[11041]: time="2026-06-23T04:34:20.108722777Z" level=info msg="Daemon has completed initialization"
+Jun 23 04:34:20 parcial dockerd[11041]: time="2026-06-23T04:34:20.108857378Z" level=info msg="API listen on /run/docker.sock"
+Jun 23 04:34:20 parcial systemd[1]: Started Docker Application Container Engine.
+
