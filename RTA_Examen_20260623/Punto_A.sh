@@ -1,4 +1,5 @@
-
+#!/bin/bash
+#Creacion de particiones
 Santiago@DESKTOP-H8JVUJJ MINGW64 ~/Documents/UTN-FRA_SO_Vagrant/VagrantFiles/parcial (master)
 $ vagrant ssh
 Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-179-generic x86_64)
